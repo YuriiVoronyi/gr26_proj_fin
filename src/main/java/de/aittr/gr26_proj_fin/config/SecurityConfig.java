@@ -26,6 +26,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         x -> x
+                                .requestMatchers(HttpMethod.POST, "/cart/users/{userId}/cart/items").hasRole("USER")//Добавление книги в корзину
+
                                 .requestMatchers(HttpMethod.GET, "/book").hasRole("ADMIN")//Вывод всех книг
                                 .requestMatchers(HttpMethod.POST, "/book/save").hasRole("ADMIN")//Сохранение книги
                                 .requestMatchers(HttpMethod.POST, "/book/update").hasRole("ADMIN")//Обновление данных книги
@@ -48,9 +50,10 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/user/{name}").hasRole("ADMIN")//Вывод одного юзера
                                 .requestMatchers(HttpMethod.DELETE, "/user/{name}").hasRole("ADMIN")//Удаление юзера по логину
                                 .requestMatchers(HttpMethod.POST, "/user/update").hasRole("ADMIN")//Обновление данных по юзеру, логин и почта
+                                .requestMatchers(HttpMethod.DELETE, "/user/delete/{id}").hasRole("ADMIN")//Удаление покупателя из базы данных
                                 .requestMatchers(HttpMethod.POST, "/user/reg").permitAll()//Регистрация юзера
 
-                                .requestMatchers(AUTH_WHITELIST).permitAll()//разрешаем работу для SWAGGER
+                                .requestMatchers("/v3/**","/swagger-ui/**").permitAll()//разрешаем работу для SWAGGER
 
                                 .anyRequest().authenticated()
                 ).httpBasic(Customizer.withDefaults());
@@ -58,10 +61,13 @@ public class SecurityConfig {
     }
 
     private static final String[] AUTH_WHITELIST = {
-            "/api/v1/auth/**",
-            "/v3/api-docs/**",
-            "/v3/api-docs.yaml",
             "/swagger-ui/**",
-            "/swagger-ui.html"
+            "/v3/api-docs/**",
+            "/swagger-ui.html",
+            "/**"
     };
+
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.authorizeRequests().anyRequest().authenticated();
+//    }
 }

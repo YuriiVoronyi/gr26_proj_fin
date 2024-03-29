@@ -1,11 +1,16 @@
 package de.aittr.gr26_proj_fin.services;
 
+import de.aittr.gr26_proj_fin.domain.CommonBook;
+import de.aittr.gr26_proj_fin.domain.CommonCart;
 import de.aittr.gr26_proj_fin.domain.CommonUser;
 import de.aittr.gr26_proj_fin.domain.Role;
 import de.aittr.gr26_proj_fin.exception_handlink.UserAlreadyExistsException;
+import de.aittr.gr26_proj_fin.repositories.interfaces.BookRepository;
 import de.aittr.gr26_proj_fin.repositories.interfaces.CartRepository;
 import de.aittr.gr26_proj_fin.repositories.interfaces.RoleRepository;
 import de.aittr.gr26_proj_fin.repositories.interfaces.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,6 +28,8 @@ public class UserService implements UserDetailsService {
     private RoleRepository roleRepository;
     @Autowired
     private CartRepository cartRepository;
+    @Autowired
+    private BookRepository bookRepository;
 
     private BCryptPasswordEncoder encoder;
 
@@ -43,7 +50,7 @@ public class UserService implements UserDetailsService {
     public CommonUser register(CommonUser user) {
         CommonUser foundUser = userRepository.findByname(user.getUsername());
         if (foundUser != null) {
-            throw new UserAlreadyExistsException("Пользователь с таким именем уже существует!");
+            throw new UserAlreadyExistsException("A user with the same name already exists!");
         }
         user.setId(0);
         user.clearRoles();
@@ -51,13 +58,13 @@ public class UserService implements UserDetailsService {
         user.addRole(role);
         String encodePassword = encoder.encode(user.getPassword());
         user.setPassword(encodePassword);
-//        CommonUser newUser = userRepository.save(user);
-//        CommonCart newCart = new CommonCart();
-//        newCart.setId(0);
-//        newCart.setCustomerId(newUser.getId());
-//        cartRepository.save(newCart);
-//        newUser.setCart(newCart);
-        return userRepository.save(user);
+        CommonUser newUser = userRepository.save(user);
+
+        CommonCart newCart = new CommonCart();
+        newCart.setCustomer(newUser);
+        cartRepository.save(newCart);
+
+        return newUser;
     }
 
     public List<CommonUser> getAll() {
@@ -75,30 +82,42 @@ public class UserService implements UserDetailsService {
         userRepository.updateUser(user.getId(), user.getUsername(), user.getEmail());
     }
 
-//    @Transactional
-//    public void deleteUserAndRelatedEntities(Integer userId) {
-//        // Получение пользователя по идентификатору
-//        CommonUser user = userRepository.findById(userId).orElse(null);
-//
-//        if (user != null) {
-//            // Удаление связанных ролей
-//            roleRepository.deleteAll(user.getRoles());
-//
-//            // Удаление корзины пользователя
-//            CommonCart cart = user.getCart();
-//            if (cart != null) {
-//                // Удаление книг из корзины
-//                cart.getBooks().clear();
-//                cartRepository.save(cart);
-//
-//                // Удаление самой корзины
-//                cartRepository.delete(cart);
-//            }
-//
-//            // Удаление пользователя
-//            userRepository.delete(user);
-//        }
-//    }
+    @Transactional
+    public void addBookToCart(Integer userId, Integer bookId) {
+        //Получаем юзера из базы данных
+        CommonUser user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User with id " + userId + " not found"));
+
+        CommonBook bookToAdd = bookRepository.findById(bookId)
+                .orElseThrow(() -> new EntityNotFoundException("Book with id " + bookId + " not found"));
+        // Добавляем книгу в корзину пользователя
+        user.addToCart(bookToAdd);
+        userRepository.save(user);
+
+    }
+    @Transactional
+    public void deleteUserAndRelatedEntities(Integer userId) {
+        // Получение пользователя по идентификатору
+        CommonUser user = userRepository.findById(userId).orElse(null);
+
+        if (user != null) {
+            // Удаление связанных ролей
+            userRepository.deleteByUserId(userId);
+            // Удаление корзины пользователя
+            CommonCart cart = user.getCart();
+            if (cart != null) {
+                // Удаление книг из корзины
+                cart.getBooks().clear();
+                cartRepository.save(cart);
+
+                // Удаление самой корзины
+                cartRepository.delete(cart);
+            }
+
+            // Удаление пользователя
+            userRepository.delete(user);
+        }
+    }
 
 
 }

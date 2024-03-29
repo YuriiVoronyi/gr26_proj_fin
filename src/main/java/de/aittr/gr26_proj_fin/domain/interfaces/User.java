@@ -16,6 +16,4 @@ public interface User {
     String getEmail();
     void setEmail();
 
-//    Cart getCart();
-//    void setCart(CommonCart cart);
 }

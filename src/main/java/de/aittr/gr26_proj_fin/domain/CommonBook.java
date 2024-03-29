@@ -3,6 +3,8 @@ package de.aittr.gr26_proj_fin.domain;
 import de.aittr.gr26_proj_fin.domain.interfaces.Book;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -37,6 +39,9 @@ public class CommonBook implements Book {
 
     @Column(name = "is_active")
     private boolean is_active;
+
+    @ManyToMany(mappedBy = "books")
+    private List<CommonCart> carts = new ArrayList<>();
 
     public CommonBook() {
     }

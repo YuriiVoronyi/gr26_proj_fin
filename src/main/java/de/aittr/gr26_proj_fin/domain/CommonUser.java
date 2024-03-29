@@ -36,8 +36,12 @@ public class CommonUser implements User, UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-
     private Set<Role> roles = new HashSet<>();
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private CommonCart cart;
+
 
     public CommonUser() {
     }
@@ -48,6 +52,35 @@ public class CommonUser implements User, UserDetails {
         this.password = password;
         this.email = email;
     }
+
+    public void addToCart(CommonBook book) {
+        if (cart == null) {
+            cart = new CommonCart();
+            cart.setCustomer(this);
+        }
+
+        // Проверка наличия книги в корзине
+        boolean bookFound = false;
+        for (CommonBook item : cart.getBooks()) {
+            if (item.getId() == book.getId()) {
+                // Если книга уже есть в корзине, увеличиваем количество
+                //cart.setQuantity(cart.getQuantity() + 1);
+                bookFound = true;
+                break;
+            }
+        }
+
+        // Если книга не найдена в корзине, создаем новый элемент корзины
+//        CartItem newItem = new CartItem();
+//        newItem.setBook(bookToAdd);
+//        newItem.setQuantity(1); // Например, изначально добавляем по одной книге
+//        cart.getItems().add(newItem);
+
+        cart.addBook(book);
+        //cart.setQuantity(cart.getQuantity() + 1);
+    }
+
+
 
     public void addRole(Role role) {
         roles.add(role);
@@ -63,6 +96,14 @@ public class CommonUser implements User, UserDetails {
 
     public Set<Role> getRoles() {
         return roles;
+    }
+
+    public CommonCart getCart() {
+        return cart;
+    }
+
+    public void setCart(CommonCart cart) {
+        this.cart = cart;
     }
 
     @Override

@@ -1,9 +1,10 @@
 package de.aittr.gr26_proj_fin.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.aittr.gr26_proj_fin.domain.interfaces.Cart;
 import jakarta.persistence.*;
 
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "cart")
@@ -14,29 +15,51 @@ public class CommonCart implements Cart {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "customer_id")
-    private int customer_id;
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id")
+    private CommonUser customer;
 
-    //private List<CommonBook> books = new ArrayList<>();
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "cart_book",
+            joinColumns = @JoinColumn(name = "cart_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id")
+    )
+    private List<CommonBook> books = new ArrayList<>();
+    //========================================================================
+//    private int quantity;
+//
+//    public int getQuantity() {
+//        return quantity;
+//    }
+//
+//    public void setQuantity(int quantity) {
+//        this.quantity = quantity;
+//    }
+    //========================================================================
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CommonCart that = (CommonCart) o;
-        return id == that.id && customer_id == that.customer_id;
+        return Objects.equals(id, that.id) && Objects.equals(customer, that.customer) && Objects.equals(books, that.books);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, customer_id);
+        return Objects.hash(id, customer, books);
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CommonCart{");
         sb.append("id=").append(id);
-        sb.append(", customer_id=").append(customer_id);
+        sb.append(", customer=").append(customer);
+        sb.append(", books=").append(books);
         sb.append('}');
         return sb.toString();
     }
@@ -51,8 +74,41 @@ public class CommonCart implements Cart {
         this.id = id;
     }
 
+
     @Override
-    public void setCustomerId(int customerId) {
-        this.customer_id = customerId;
+    public void setCustomer(CommonUser customer) {
+        this.customer = customer;
+    }
+
+    public CommonUser getCustomer() {
+        return customer;
+    }
+
+    @Override
+    public List<CommonBook> getBooks() {
+        return books;
+    }
+
+    @Override
+    public void addBook(CommonBook book) {
+        books.add(book);
+    }
+
+    @Override
+    public void deleteBookById(int bookId) {
+        books.removeIf(b -> b.getId() == bookId);
+    }
+
+    @Override
+    public void clear() {
+        books.clear();
+    }
+
+    @Override
+    public double getTotalPrice() {
+        return books.stream()
+                .filter(b -> b.isIs_active())
+                .mapToDouble(b -> b.getPrice())
+                .sum();
     }
 }

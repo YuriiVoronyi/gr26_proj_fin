@@ -68,4 +68,13 @@ public class UserController {
     public void updateForUser(@RequestBody CommonUser user) {
         service.updateOfUser(user);
     }
+    @DeleteMapping("/delete/{id}")
+    @Operation(
+            summary = "Delete buyer",
+            description = "Removing a customer from the database"
+    )
+    public void delUser(@PathVariable Integer id) {
+        service.deleteUserAndRelatedEntities(id);
+    }
+
 }
