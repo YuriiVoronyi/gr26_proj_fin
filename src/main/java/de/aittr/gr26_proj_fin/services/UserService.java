@@ -47,18 +47,24 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public CommonUser register(CommonUser user) {
-        CommonUser foundUser = userRepository.findByname(user.getUsername());
-        if (foundUser != null) {
+    public CommonUser register(String name, String psw, String email) {
+        CommonUser user = userRepository.findByname(name);
+        if (user != null) {
             throw new UserAlreadyExistsException("A user with the same name already exists!");
         }
-        user.setId(0);
-        user.clearRoles();
+        CommonUser testUser = new CommonUser();
+        testUser.setName(name);
+        testUser.setEmail(email);
+
+        testUser.setId(0);
+        testUser.clearRoles();
         Role role = new Role(1, "ROLE_USER");
-        user.addRole(role);
-        String encodePassword = encoder.encode(user.getPassword());
-        user.setPassword(encodePassword);
-        CommonUser newUser = userRepository.save(user);
+        testUser.addRole(role);
+
+        String encodePassword = encoder.encode(psw);
+        testUser.setPassword(encodePassword);
+
+        CommonUser newUser = userRepository.save(testUser);
 
         CommonCart newCart = new CommonCart();
         newCart.setCustomer(newUser);
@@ -78,9 +84,9 @@ public class UserService implements UserDetailsService {
                 .toList();
     }
 
-    public void updateOfUser(CommonUser user) {
-        userRepository.updateUser(user.getId(), user.getUsername(), user.getEmail());
-    }
+public void updateOfUser(Integer id, String name, String email) {
+    userRepository.updateUser(id, name, email);
+}
 
     @Transactional
     public void addBookToCart(Integer userId, Integer bookId) {
@@ -95,6 +101,34 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
 
     }
+
+    @Transactional
+    public List<CommonBook> deleteBookFromCart(Integer userId, Integer bookId) {
+        //Получаем юзера из базы данных
+        CommonUser user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User with id " + userId + " not found"));
+
+        CommonBook bookForDel = bookRepository.findById(bookId)
+                .orElseThrow(() -> new EntityNotFoundException("Book with id " + bookId + " not found"));
+        // Удаляем книгу из корзины пользователя
+        user.delFromCart(bookForDel);
+        userRepository.save(user);
+        return user.getCart().getBooks();
+
+    }
+
+    @Transactional
+    public List<CommonBook> clearCart(Integer userId) {
+        //Получаем юзера из базы данных
+        CommonUser user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User with id " + userId + " not found"));
+        // Чистим корзину пользователя
+        user.getCart().clear();
+        userRepository.save(user);
+        return user.getCart().getBooks();
+
+    }
+
     @Transactional
     public void deleteUserAndRelatedEntities(Integer userId) {
         // Получение пользователя по идентификатору
@@ -118,6 +152,4 @@ public class UserService implements UserDetailsService {
             userRepository.delete(user);
         }
     }
-
-
 }

@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -22,11 +23,16 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
+        return http
+                .httpBasic(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(x -> x.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
                         x -> x
                                 .requestMatchers(HttpMethod.POST, "/cart/users/{userId}/cart/items").hasRole("USER")//Добавление книги в корзину
+                                .requestMatchers(HttpMethod.DELETE, "/cart/del/users/{userId}/cart/items").hasRole("USER")//Удаление книги из корзины
+                                .requestMatchers(HttpMethod.DELETE, "/cart/clear/users/{userId}").hasRole("USER")//Очистка корзины
+                                .requestMatchers(HttpMethod.GET, "/cart/books/{userId}").hasRole("USER")//Вызов списка книг из корзины
 
                                 .requestMatchers(HttpMethod.GET, "/book").hasRole("ADMIN")//Вывод всех книг
                                 .requestMatchers(HttpMethod.POST, "/book/save").hasRole("ADMIN")//Сохранение книги
@@ -53,19 +59,19 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.DELETE, "/user/delete/{id}").hasRole("ADMIN")//Удаление покупателя из базы данных
                                 .requestMatchers(HttpMethod.POST, "/user/reg").permitAll()//Регистрация юзера
 
-                                .requestMatchers("/v3/**","/swagger-ui/**").permitAll()//разрешаем работу для SWAGGER
+                                .requestMatchers("/v3/**","/swagger-ui/**","/swagger-ui.html","/**").permitAll()//разрешаем работу для SWAGGER
 
                                 .anyRequest().authenticated()
-                ).httpBasic(Customizer.withDefaults());
-        return http.build();
+                ).httpBasic(Customizer.withDefaults()).build();
+        //return http.build();
     }
 
-    private static final String[] AUTH_WHITELIST = {
-            "/swagger-ui/**",
-            "/v3/api-docs/**",
-            "/swagger-ui.html",
-            "/**"
-    };
+//    private static final String[] AUTH_WHITELIST = {
+//            "/swagger-ui/**",
+//            "/v3/api-docs/**",
+//            "/swagger-ui.html",
+//            "/**"
+//    };
 
 //    protected void configure(HttpSecurity http) throws Exception {
 //        http.authorizeRequests().anyRequest().authenticated();

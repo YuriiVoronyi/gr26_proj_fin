@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -33,13 +34,16 @@ public class UserController {
         return service.loadUserByUsername(name);
     }
 
-    @PostMapping("/reg")
+    @PostMapping("reg/items")
     @Operation(
             summary = "Buyer registration",
             description = "New buyer registration"
     )
-    public CommonUser register(@RequestBody CommonUser user) {
-        return service.register(user);
+    public CommonUser register(@RequestBody Map<String, String> requestBody) {
+        String name = requestBody.get("name");
+        String psw = requestBody.get("psw");
+        String email = requestBody.get("email");
+        return service.register(name,psw,email);
     }
 
     @GetMapping
@@ -60,14 +64,17 @@ public class UserController {
         return service.getUsersByEmail(email);
     }
 
-    @PostMapping("/update")
+
+    @PostMapping("/update/{id}/name/{name}/email/{email}")
     @Operation(
             summary = "Updating buyer details",
-            description = "Updating buyer details"
+            description = "Updating buyer details: login and email"
     )
-    public void updateForUser(@RequestBody CommonUser user) {
-        service.updateOfUser(user);
+
+    public void updateForUser(@PathVariable Integer id, @PathVariable String name, @PathVariable String email) {
+        service.updateOfUser(id,name,email);
     }
+
     @DeleteMapping("/delete/{id}")
     @Operation(
             summary = "Delete buyer",

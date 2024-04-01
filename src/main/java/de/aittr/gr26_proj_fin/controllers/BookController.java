@@ -4,6 +4,7 @@ import de.aittr.gr26_proj_fin.domain.CommonBook;
 import de.aittr.gr26_proj_fin.services.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,8 +28,11 @@ public class BookController {
             summary = "Getting all books",
             description = "Getting a list of all book objects stored in the database"
     )
-    public List<CommonBook> getAll() {
-        return service.getAll();
+//    public List<CommonBook> getAll() {
+//        return service.getAll();
+//    }
+    public ResponseEntity<List<CommonBook>> getAll() {
+        return ResponseEntity.ok().body(service.getAll());
     }
 
     @GetMapping("/active")

@@ -14,6 +14,6 @@ public interface User {
     void setPassword(String password);
 
     String getEmail();
-    void setEmail();
+    void setEmail(String email);
 
 }

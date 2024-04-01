@@ -2,6 +2,7 @@ package de.aittr.gr26_proj_fin.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.aittr.gr26_proj_fin.domain.interfaces.User;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -70,16 +71,22 @@ public class CommonUser implements User, UserDetails {
             }
         }
 
-        // Если книга не найдена в корзине, создаем новый элемент корзины
-//        CartItem newItem = new CartItem();
-//        newItem.setBook(bookToAdd);
-//        newItem.setQuantity(1); // Например, изначально добавляем по одной книге
-//        cart.getItems().add(newItem);
-
         cart.addBook(book);
-        //cart.setQuantity(cart.getQuantity() + 1);
     }
 
+    public void delFromCart(CommonBook book) {
+        int id = book.getId();
+        if (cart == null) {
+            cart = new CommonCart();
+            cart.setCustomer(this);
+        }
+        for (CommonBook item : cart.getBooks()) {
+            if (item.getId() == id) {
+                cart.deleteBookById(id);
+                break;
+            }
+        }
+    }
 
 
     public void addRole(Role role) {
@@ -171,11 +178,11 @@ public class CommonUser implements User, UserDetails {
     }
 
     @Override
-    public void setEmail() {
+    public void setEmail(String email) {
         this.email = email;
     }
 
-        @Override
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

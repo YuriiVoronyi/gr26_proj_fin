@@ -46,8 +46,7 @@ public class CommonBook implements Book {
     public CommonBook() {
     }
 
-    public CommonBook(int id, String name, double price, String year, String pathimg, String author, String isbn, String genre, boolean isActive) {
-        this.id = id;
+    public CommonBook(String name, double price, String year, String pathimg, String author, String isbn, String genre, boolean isActive) {
         this.name = name;
         this.price = price;
         this.year = year;
