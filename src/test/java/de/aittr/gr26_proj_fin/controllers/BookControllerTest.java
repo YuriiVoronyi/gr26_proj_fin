@@ -110,7 +110,7 @@ public class BookControllerTest {
         when(bookService.save(any(CommonBook.class))).thenReturn(bookToSave);
 
         // Выполнение запроса POST с передачей объекта книги в теле запроса
-        mockMvc.perform(post("/book/save")
+        mockMvc.perform(post("api/book/save")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonBook))
                 .andExpect(status().isOk());
@@ -118,7 +118,7 @@ public class BookControllerTest {
 
     @Test
     public void updateForBook() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/book/update")
+        mockMvc.perform(MockMvcRequestBuilders.post("api/book/update")
                         .content("{ \"id\": 19, \"name\": \"Updated Book Title\", \"author\": \"Updated Author\" }")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -187,19 +187,20 @@ public class BookControllerTest {
 //    @Test
 //    public void getBkByGenre() {
 //        // Задаем жанр, для которого ожидаем получить книги
-//        String genre = "Example Genre";
+//        String genre = "Detective";
 //
 //        // Создаем список книг, которые мы ожидаем получить
 //        List<CommonBook> expectedBooks = new ArrayList<>();
 //        expectedBooks.add(new CommonBook("Book 1", "Example Author 1", genre));
 //        expectedBooks.add(new CommonBook("Book 2", "Example Author 2", genre));
-//        expectedBooks.add(new CommonBook("Book 3", "Example Author 3", "Another Genre")); // этой книги не должно быть в ожидаемом списке
+//        //expectedBooks.add(new CommonBook("Book 3", "Example Author 3", "Another Genre")); // этой книги не должно быть в ожидаемом списке
+//        expectedBooks.add(new CommonBook("Book 4", "Example Author 4", genre));
 //
 //        // Создаем список книг, которые сервис вернет по запросу
 //        List<CommonBook> allBooks = new ArrayList<>();
 //        allBooks.add(new CommonBook("Book 1", "Example Author 1", genre));
 //        allBooks.add(new CommonBook("Book 2", "Example Author 2", genre));
-//        allBooks.add(new CommonBook("Book 3", "Example Author 3", "Another Genre"));
+//        allBooks.add(new CommonBook("Book 3", "Example Author 3", "Drama"));
 //        allBooks.add(new CommonBook("Book 4", "Example Author 4", genre));
 //
 //        // Создаем заглушку для метода getBooksByGenre
@@ -207,6 +208,11 @@ public class BookControllerTest {
 //
 //        // Вызываем метод контроллера, который должен вызвать метод сервиса
 //        List<CommonBook> actualBooks = bookController.getBkByGenre(genre);
+//
+//        System.out.println("================ expectedBooks ==============================");
+//        expectedBooks.stream().forEach(System.out::println);
+//        System.out.println("================= actualBooks =============================");
+//        actualBooks.stream().forEach(System.out::println);
 //
 //        // Проверяем, что полученный список книг совпадает с ожидаемым
 //        assertEquals(expectedBooks, actualBooks);

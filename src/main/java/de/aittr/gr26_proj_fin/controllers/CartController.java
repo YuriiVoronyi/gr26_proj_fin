@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("api/cart")
+@RequestMapping("/api/cart")
 public class CartController {
 
     private UserService userService;
