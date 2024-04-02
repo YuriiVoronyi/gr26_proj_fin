@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("api/user")
 @Tag(
         name = "Buyer Controller",
         description = "Controller for performing various operations on customer objects"
@@ -28,7 +28,7 @@ public class UserController {
     @GetMapping("/{name}")
     @Operation(
             summary = "Search for a buyer",
-            description = "Search for a buyer by login"
+            description = "Search for a buyer by login. Available only for administrator."
     )
     public UserDetails getOneUser(@PathVariable String name) {
         return service.loadUserByUsername(name);
@@ -37,7 +37,7 @@ public class UserController {
     @PostMapping("reg/items")
     @Operation(
             summary = "Buyer registration",
-            description = "New buyer registration"
+            description = "New buyer registration. Available for any user."
     )
     public CommonUser register(@RequestBody Map<String, String> requestBody) {
         String name = requestBody.get("name");
@@ -49,7 +49,7 @@ public class UserController {
     @GetMapping
     @Operation(
             summary = "Displaying a list of buyers",
-            description = "Display a list of all registered customers"
+            description = "Display a list of all registered customers. Available only for administrator."
     )
     public List<CommonUser> getAll() {
         return service.getAll();
@@ -58,7 +58,7 @@ public class UserController {
     @GetMapping("email/{email}")
     @Operation(
             summary = "Search for a buyer",
-            description = "Search for a buyer by his email address"
+            description = "Search for a buyer by his email address. Available only for administrator."
     )
     public List<CommonUser> getUserByEmail(@PathVariable String email) {
         return service.getUsersByEmail(email);
@@ -68,7 +68,7 @@ public class UserController {
     @PostMapping("/update/{id}/name/{name}/email/{email}")
     @Operation(
             summary = "Updating buyer details",
-            description = "Updating buyer details: login and email"
+            description = "Updating buyer details: login and email. Available only for administrator."
     )
 
     public void updateForUser(@PathVariable Integer id, @PathVariable String name, @PathVariable String email) {
@@ -78,7 +78,7 @@ public class UserController {
     @DeleteMapping("/delete/{id}")
     @Operation(
             summary = "Delete buyer",
-            description = "Removing a customer from the database"
+            description = "Removing a customer from the database. Available only for administrator."
     )
     public void delUser(@PathVariable Integer id) {
         service.deleteUserAndRelatedEntities(id);

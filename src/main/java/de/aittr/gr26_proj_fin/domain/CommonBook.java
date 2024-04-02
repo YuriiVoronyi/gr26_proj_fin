@@ -57,6 +57,27 @@ public class CommonBook implements Book {
         this.is_active = isActive;
     }
 
+    public CommonBook(String name, String author) {
+        this.name = name;
+        this.author = author;
+    }
+
+    public CommonBook(String name, String author, boolean isActive) {
+        this.name = name;
+        this.author = author;
+        this.is_active = isActive;
+    }
+
+    public CommonBook(String name, String author, String genre) {
+        this.name = name;
+        this.author = author;
+        this.genre = genre;
+    }
+
+    public CommonBook(String name) {
+        this.name = name;
+    }
+
     @Override
     public int getId() {
         return id;
@@ -65,6 +86,11 @@ public class CommonBook implements Book {
     @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override

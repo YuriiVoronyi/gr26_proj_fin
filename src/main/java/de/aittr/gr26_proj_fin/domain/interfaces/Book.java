@@ -3,6 +3,7 @@ package de.aittr.gr26_proj_fin.domain.interfaces;
 public interface Book {
     int getId();
     String getName();
+    void setName(String name);
     double getPrice();
     String getYear();
     String getPathimg();

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/cart")
+@RequestMapping("api/cart")
 public class CartController {
 
     private UserService userService;
@@ -25,7 +25,7 @@ public class CartController {
     @PostMapping("/users/{userId}/cart/items")
     @Operation(
             summary = "Adding a book to cart",
-            description = "Adding a book to an authorized customer's cart"
+            description = "Adding a book to cart. Available for authorized users."
     )
     public ResponseEntity<?> addBookToCart(@PathVariable Integer userId, @RequestBody Map<String, String> requestBody) {
         String bookId = requestBody.get("bookId");
@@ -42,7 +42,7 @@ public class CartController {
     @GetMapping("/books/{userId}")
     @Operation(
             summary = "Displaying a list of books",
-            description = "Displaying a list of books from a registered user's cart"
+            description = "Displaying a list of books from the cart. Available for authorized users."
     )
     public List<CommonBook> getBooksOfCart(@PathVariable Integer userId) {
         return cartService.getBooksFromCart(userId);
@@ -51,7 +51,7 @@ public class CartController {
     @DeleteMapping("del/users/{userId}/cart/items")
     @Operation(
             summary = "Removing a book from the cart",
-            description = "Removing a book from a registered customer's cart"
+            description = "Removing a book from the cart. Available for authorized users."
     )
     public List<CommonBook> delBookFromCart(@PathVariable Integer userId, @RequestBody Map<String, String> requestBody) {
         String bookId = requestBody.get("bookId");
@@ -61,7 +61,7 @@ public class CartController {
     @DeleteMapping("clear/users/{userId}")
     @Operation(
             summary = "Emptying the cart",
-            description = "Complete emptying of the book basket for a registered customer"
+            description = "Completly emptying of the book basket. Available for authorized users."
     )
     public List<CommonBook> clrCart(@PathVariable Integer userId) {
         return userService.clearCart(userId);
