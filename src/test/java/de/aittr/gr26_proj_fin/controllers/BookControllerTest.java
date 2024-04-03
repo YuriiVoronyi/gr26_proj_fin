@@ -85,12 +85,14 @@ public class BookControllerTest {
 
         // Вызов метода контроллера
         List<CommonBook> response = bookController.getAllActiveBk();
-
+        int b=0;
         // Проверка результатов
-        assertNotEquals(2, 4);
+        //assertNotEquals(2, 4);
         for (int i = 0; i < mockBooks.size(); i++) {
             assertEquals(mockBooks.get(i), response.get(i));
+            b++;
         }
+        System.out.println("i = " + b);
     }
 
     @ResponseBody
@@ -145,7 +147,7 @@ public class BookControllerTest {
 //
 //        when(bookService.getBookByName(bookName)).thenReturn(book);
 //
-//        mockMvc.perform(MockMvcRequestBuilders.get("/book/{name}", bookName))
+//        mockMvc.perform(MockMvcRequestBuilders.get("/api/book/{name}", bookName))
 //                .andExpect(status().isOk())
 //                .andExpect(jsonPath("$.name").value(bookName));//ожидаем значение bookName для поля name
 //    }
@@ -184,37 +186,37 @@ public class BookControllerTest {
         assertEquals(expectedBooks, actualBooks);
     }
 
-//    @Test
-//    public void getBkByGenre() {
-//        // Задаем жанр, для которого ожидаем получить книги
-//        String genre = "Detective";
-//
-//        // Создаем список книг, которые мы ожидаем получить
-//        List<CommonBook> expectedBooks = new ArrayList<>();
-//        expectedBooks.add(new CommonBook("Book 1", "Example Author 1", genre));
-//        expectedBooks.add(new CommonBook("Book 2", "Example Author 2", genre));
-//        //expectedBooks.add(new CommonBook("Book 3", "Example Author 3", "Another Genre")); // этой книги не должно быть в ожидаемом списке
-//        expectedBooks.add(new CommonBook("Book 4", "Example Author 4", genre));
-//
-//        // Создаем список книг, которые сервис вернет по запросу
-//        List<CommonBook> allBooks = new ArrayList<>();
-//        allBooks.add(new CommonBook("Book 1", "Example Author 1", genre));
-//        allBooks.add(new CommonBook("Book 2", "Example Author 2", genre));
-//        allBooks.add(new CommonBook("Book 3", "Example Author 3", "Drama"));
-//        allBooks.add(new CommonBook("Book 4", "Example Author 4", genre));
-//
-//        // Создаем заглушку для метода getBooksByGenre
-//        when(bookService.getBooksByGenre(genre)).thenReturn(allBooks);
-//
-//        // Вызываем метод контроллера, который должен вызвать метод сервиса
-//        List<CommonBook> actualBooks = bookController.getBkByGenre(genre);
-//
-//        System.out.println("================ expectedBooks ==============================");
-//        expectedBooks.stream().forEach(System.out::println);
-//        System.out.println("================= actualBooks =============================");
-//        actualBooks.stream().forEach(System.out::println);
-//
-//        // Проверяем, что полученный список книг совпадает с ожидаемым
-//        assertEquals(expectedBooks, actualBooks);
-//    }
+    @Test
+    public void getBkByGenre() {
+        // Задаем жанр, для которого ожидаем получить книги
+        String genre = "Detective";
+
+        // Создаем список книг, которые мы ожидаем получить
+        List<CommonBook> expectedBooks = new ArrayList<>();
+        expectedBooks.add(new CommonBook("Book 1", "Example Author 1", genre));
+        expectedBooks.add(new CommonBook("Book 2", "Example Author 2", genre));
+        //expectedBooks.add(new CommonBook("Book 3", "Example Author 3", "Another Genre")); // этой книги не должно быть в ожидаемом списке
+        expectedBooks.add(new CommonBook("Book 4", "Example Author 4", genre));
+
+        // Создаем список книг, которые сервис вернет по запросу
+        List<CommonBook> allBooks = new ArrayList<>();
+        allBooks.add(new CommonBook("Book 1", "Example Author 1", genre));
+        allBooks.add(new CommonBook("Book 2", "Example Author 2", genre));
+        allBooks.add(new CommonBook("Book 3", "Example Author 3", "Drama"));
+        allBooks.add(new CommonBook("Book 4", "Example Author 4", genre));
+
+        // Создаем заглушку для метода getBooksByGenre
+        when(bookService.getBooksByGenre(genre)).thenReturn(allBooks);
+
+        // Вызываем метод контроллера, который должен вызвать метод сервиса
+        List<CommonBook> actualBooks = bookController.getBkByGenre(genre);
+
+        System.out.println("================ expectedBooks ==============================");
+        expectedBooks.stream().forEach(System.out::println);
+        System.out.println("================= actualBooks =============================");
+        actualBooks.stream().forEach(System.out::println);
+
+        // Проверяем, что полученный список книг совпадает с ожидаемым
+        assertEquals(expectedBooks, actualBooks);
+    }
 }
