@@ -5,13 +5,16 @@ import de.aittr.gr26_proj_fin.domain.interfaces.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+@Schema(description = "CommonUser entity")
 @Entity
 @Table(name = "customer")
 public class CommonUser implements User, UserDetails {
@@ -21,12 +24,15 @@ public class CommonUser implements User, UserDetails {
     @Column(name = "id")
     private Integer id;
 
+    @Schema(description = "Username that use for logging in", example = "Bob")
     @Column(name = "username")
     private String name;
 
+    @Schema(description = "User's raw password for logging in", example = "qwerty")
     @Column(name = "password")
     private String password;
 
+    @Schema(description = "User's email", example = "bob@x.com")
     @Column(name = "email")
     private String email;
 
@@ -38,6 +44,7 @@ public class CommonUser implements User, UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
+    //private Set<Role> roles;
 
     @JsonIgnore
     @OneToOne(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -88,7 +95,6 @@ public class CommonUser implements User, UserDetails {
         }
     }
 
-
     public void addRole(Role role) {
         roles.add(role);
     }
@@ -101,9 +107,9 @@ public class CommonUser implements User, UserDetails {
         this.roles = roles;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
+    //public Set<Role> getRoles() {
+    //    return roles;
+    //}
 
     public CommonCart getCart() {
         return cart;
@@ -157,9 +163,16 @@ public class CommonUser implements User, UserDetails {
         this.name = name;
     }
 
-    @Override
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return roles;
+//    }
+
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.getAuthority()))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -195,15 +208,25 @@ public class CommonUser implements User, UserDetails {
         return Objects.hash(id, name, password, email, roles);
     }
 
+//    @Override
+//    public String toString() {
+//        final StringBuilder sb = new StringBuilder("CommonUser{");
+//        sb.append("id=").append(id);
+//        sb.append(", name='").append(name).append('\'');
+//        sb.append(", password='").append(password).append('\'');
+//        sb.append(", email='").append(email).append('\'');
+//        sb.append(", roles=").append(roles);
+//        sb.append('}');
+//        return sb.toString();
+//    }
+
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("CommonUser{");
-        sb.append("id=").append(id);
-        sb.append(", name='").append(name).append('\'');
-        sb.append(", password='").append(password).append('\'');
-        sb.append(", email='").append(email).append('\'');
-        sb.append(", roles=").append(roles);
-        sb.append('}');
-        return sb.toString();
+        return "CommonUser{" +
+                "id=" + id +
+                ", name=" + name +
+                ", email=" + email +
+                ", roles=" + roles +
+                '}';
     }
 }

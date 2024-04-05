@@ -151,19 +151,34 @@ public class CommonBook implements Book {
         return Objects.hash(id, name, price, year, pathimg, author, isbn, genre, is_active);
     }
 
+//    @Override
+//    public String toString() {
+//        final StringBuilder sb = new StringBuilder("CommonBook{");
+//        sb.append("id=").append(id);
+//        sb.append(", title='").append(name).append('\'');
+//        sb.append(", price=").append(price);
+//        sb.append(", year='").append(year).append('\'');
+//        sb.append(", pathimg='").append(pathimg).append('\'');
+//        sb.append(", author='").append(author).append('\'');
+//        sb.append(", isbn='").append(isbn).append('\'');
+//        sb.append(", genre='").append(genre).append('\'');
+//        sb.append(", is_active=").append(is_active);
+//        sb.append('}');
+//        return sb.toString();
+//    }
+
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("CommonBook{");
-        sb.append("id=").append(id);
-        sb.append(", title='").append(name).append('\'');
-        sb.append(", price=").append(price);
-        sb.append(", year='").append(year).append('\'');
-        sb.append(", pathimg='").append(pathimg).append('\'');
-        sb.append(", author='").append(author).append('\'');
-        sb.append(", isbn='").append(isbn).append('\'');
-        sb.append(", genre='").append(genre).append('\'');
-        sb.append(", is_active=").append(is_active);
-        sb.append('}');
-        return sb.toString();
+        return "CommonBook{" +
+                "id=" + id +
+                ", title='" + name +
+                ", price=" + price +
+                ", year=" + year +
+                ", pathimg=" + pathimg +
+                ", author=" + author +
+                ", isbn=" + isbn +
+                ", genre=" + genre +
+                ", is_active=" + is_active +
+                '}';
     }
 }

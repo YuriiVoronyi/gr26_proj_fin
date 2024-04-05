@@ -44,11 +44,9 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Role{");
-        sb.append("id=").append(id);
-        sb.append(", name='").append(name).append('\'');
-        sb.append('}');
-        return sb.toString();
+        return "Role{" +
+                "id=" + id +
+                ", name='" + name +
+                '}';
     }
-
 }

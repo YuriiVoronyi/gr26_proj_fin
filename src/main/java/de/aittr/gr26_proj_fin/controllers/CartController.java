@@ -48,7 +48,7 @@ public class CartController {
         return cartService.getBooksFromCart(userId);
     }
 
-    @DeleteMapping("del/users/{userId}/cart/items")
+    @DeleteMapping("/del/users/{userId}/cart/items")
     @Operation(
             summary = "Removing a book from the cart",
             description = "Removing a book from the cart. Available for authorized users."
@@ -58,7 +58,7 @@ public class CartController {
         return  userService.deleteBookFromCart(userId, Integer.valueOf(bookId));
     }
 
-    @DeleteMapping("clear/users/{userId}")
+    @DeleteMapping("/clear/users/{userId}")
     @Operation(
             summary = "Emptying the cart",
             description = "Completly emptying of the book basket. Available for authorized users."

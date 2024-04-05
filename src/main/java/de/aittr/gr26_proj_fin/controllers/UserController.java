@@ -34,7 +34,7 @@ public class UserController {
         return service.loadUserByUsername(name);
     }
 
-    @PostMapping("reg/items")
+    @PostMapping("/reg/items")
     @Operation(
             summary = "Buyer registration",
             description = "New buyer registration. Available for any user."
@@ -55,7 +55,7 @@ public class UserController {
         return service.getAll();
     }
 
-    @GetMapping("email/{email}")
+    @GetMapping("/email/{email}")
     @Operation(
             summary = "Search for a buyer",
             description = "Search for a buyer by his email address. Available only for administrator."
