@@ -117,7 +117,7 @@ public class BookService {
         return repository.findAll()
                 .stream()
                 .filter(x -> x.getIsbn().equals(isbn) && x.isIs_active())
-                .toList();//jkjjkjhkjhkjhkjhk
+                .toList();
     }
 
         public void updateOfBook(CommonBook book) {

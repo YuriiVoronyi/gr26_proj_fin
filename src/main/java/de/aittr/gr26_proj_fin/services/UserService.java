@@ -31,11 +31,11 @@ public class UserService implements UserDetailsService {
     @Autowired
     private BookRepository bookRepository;
 
-    private BCryptPasswordEncoder encoder;
+    private BCryptPasswordEncoder encoder;//*******************************************************
 
     public UserService(UserRepository userRepository, BCryptPasswordEncoder encoder) {
         this.userRepository = userRepository;
-        this.encoder = encoder;
+        this.encoder = encoder;//*******************************************************************
     }
 
     @Override

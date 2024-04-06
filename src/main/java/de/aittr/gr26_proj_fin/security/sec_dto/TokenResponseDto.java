@@ -6,10 +6,15 @@ public class TokenResponseDto {
 
     private String accessToken;
     private String refreshToken;
+    private String message;
 
     public TokenResponseDto(String accessToken, String refreshToken) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
+    }
+
+    public TokenResponseDto(String message) {
+        this.message = message;
     }
 
     public String getAccessToken() {
