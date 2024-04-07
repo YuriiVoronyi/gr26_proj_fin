@@ -30,7 +30,7 @@ public class AuthController {
     // в теле ответа, но ещё и записывается в куки.
     @Operation(
             summary = "Login",
-            description = "Logging into the system"
+            description = "Logging into the system. The body needs two fields: name, password"
     )
     @PostMapping("/login")
     public ResponseEntity<TokenResponseDto> login(

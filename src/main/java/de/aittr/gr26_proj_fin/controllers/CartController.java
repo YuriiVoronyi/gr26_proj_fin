@@ -25,7 +25,7 @@ public class CartController {
     @PostMapping("/users/{userId}/cart/items")
     @Operation(
             summary = "Adding a book to cart",
-            description = "Adding a book to cart. Available for authorized users."
+            description = "Adding a book to cart. Available for authorized users. The body needs one field: bookId"
     )
     public ResponseEntity<?> addBookToCart(@PathVariable Integer userId, @RequestBody Map<String, String> requestBody) {
         String bookId = requestBody.get("bookId");
@@ -50,7 +50,7 @@ public class CartController {
     @DeleteMapping("/del/users/{userId}/cart/items")
     @Operation(
             summary = "Removing a book from the cart",
-            description = "Removing a book from the cart. Available for authorized users."
+            description = "Removing a book from the cart. Available for authorized users. The body needs one field: bookId"
     )
     public List<CommonBook> delBookFromCart(@PathVariable Integer userId, @RequestBody Map<String, String> requestBody) {
         String bookId = requestBody.get("bookId");
