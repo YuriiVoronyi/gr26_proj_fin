@@ -13,7 +13,7 @@ public interface User {
     String getPassword();
     void setPassword(String password);
 
-    String getEmail();
-    void setEmail(String email);
+//    String getEmail();
+//    void setEmail(String email);
 
 }

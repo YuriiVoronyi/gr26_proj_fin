@@ -22,8 +22,8 @@ public class CommonBook implements Book {
     @Column(name = "price")
     private double price;
 
-    @Column(name = "year")
-    private String year;
+//    @Column(name = "year")
+//    private String year;
 
     @Column(name = "pathimg")
     private String pathimg;
@@ -31,11 +31,11 @@ public class CommonBook implements Book {
     @Column(name = "author")
     private String author;
 
-    @Column(name = "isbn")
-    private String isbn;
-
-    @Column(name = "genre")
-    private String genre;
+//    @Column(name = "isbn")
+//    private String isbn;
+//
+//    @Column(name = "genre")
+//    private String genre;
 
     @Column(name = "is_active")
     private boolean is_active;
@@ -43,17 +43,17 @@ public class CommonBook implements Book {
     @ManyToMany(mappedBy = "books")
     private List<CommonCart> carts = new ArrayList<>();
 
+    @ManyToMany(mappedBy = "listbooks", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<CommonOrder> orders = new ArrayList<>();
+
     public CommonBook() {
     }
 
-    public CommonBook(String name, double price, String year, String pathimg, String author, String isbn, String genre, boolean isActive) {
+    public CommonBook(String name, double price, String pathimg, String author, boolean isActive) {
         this.name = name;
         this.price = price;
-        this.year = year;
         this.pathimg = pathimg;
         this.author = author;
-        this.isbn = isbn;
-        this.genre = genre;
         this.is_active = isActive;
     }
 
@@ -68,11 +68,11 @@ public class CommonBook implements Book {
         this.is_active = isActive;
     }
 
-    public CommonBook(String name, String author, String genre) {
-        this.name = name;
-        this.author = author;
-        this.genre = genre;
-    }
+//    public CommonBook(String name, String author, String genre) {
+//        this.name = name;
+//        this.author = author;
+//        this.genre = genre;
+//    }
 
     public CommonBook(String name) {
         this.name = name;
@@ -98,10 +98,10 @@ public class CommonBook implements Book {
         return price;
     }
 
-    @Override
-    public String getYear() {
-        return year;
-    }
+//    @Override
+//    public String getYear() {
+//        return year;
+//    }
 
     @Override
     public String getPathimg() {
@@ -113,15 +113,15 @@ public class CommonBook implements Book {
         return author;
     }
 
-    @Override
-    public String getIsbn() {
-        return isbn;
-    }
-
-    @Override
-    public String getGenre() {
-        return genre;
-    }
+//    @Override
+//    public String getIsbn() {
+//        return isbn;
+//    }
+//
+//    @Override
+//    public String getGenre() {
+//        return genre;
+//    }
 
     @Override
     public boolean isIs_active() {
@@ -143,29 +143,13 @@ public class CommonBook implements Book {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CommonBook that = (CommonBook) o;
-        return id == that.id && Double.compare(that.price, price) == 0 && is_active == that.is_active && Objects.equals(name, that.name) && Objects.equals(year, that.year) && Objects.equals(pathimg, that.pathimg) && Objects.equals(author, that.author) && Objects.equals(isbn, that.isbn) && Objects.equals(genre, that.genre);
+        return Double.compare(that.price, price) == 0 && is_active == that.is_active && Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(pathimg, that.pathimg) && Objects.equals(author, that.author) && Objects.equals(carts, that.carts);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, price, year, pathimg, author, isbn, genre, is_active);
+        return Objects.hash(id, name, price, pathimg, author, is_active, carts);
     }
-
-//    @Override
-//    public String toString() {
-//        final StringBuilder sb = new StringBuilder("CommonBook{");
-//        sb.append("id=").append(id);
-//        sb.append(", title='").append(name).append('\'');
-//        sb.append(", price=").append(price);
-//        sb.append(", year='").append(year).append('\'');
-//        sb.append(", pathimg='").append(pathimg).append('\'');
-//        sb.append(", author='").append(author).append('\'');
-//        sb.append(", isbn='").append(isbn).append('\'');
-//        sb.append(", genre='").append(genre).append('\'');
-//        sb.append(", is_active=").append(is_active);
-//        sb.append('}');
-//        return sb.toString();
-//    }
 
     @Override
     public String toString() {
@@ -173,11 +157,8 @@ public class CommonBook implements Book {
                 "id=" + id +
                 ", title='" + name +
                 ", price=" + price +
-                ", year=" + year +
                 ", pathimg=" + pathimg +
                 ", author=" + author +
-                ", isbn=" + isbn +
-                ", genre=" + genre +
                 ", is_active=" + is_active +
                 '}';
     }

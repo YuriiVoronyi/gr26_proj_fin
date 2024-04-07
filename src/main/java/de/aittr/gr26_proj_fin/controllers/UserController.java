@@ -25,14 +25,14 @@ public class UserController {
         this.service = service;
     }
 
-    @GetMapping("/{name}")
-    @Operation(
-            summary = "Search for a buyer",
-            description = "Search for a buyer by login. Available only for administrator."
-    )
-    public UserDetails getOneUser(@PathVariable String name) {
-        return service.loadUserByUsername(name);
-    }
+//    @GetMapping("/{name}")
+//    @Operation(
+//            summary = "Search for a buyer",
+//            description = "Search for a buyer by login. Available only for administrator."
+//    )
+//    public UserDetails getOneUser(@PathVariable String name) {
+//        return service.loadUserByUsername(name);
+//    }
 
     @PostMapping("/reg/items")
     @Operation(
@@ -42,46 +42,44 @@ public class UserController {
     public CommonUser register(@RequestBody Map<String, String> requestBody) {
         String name = requestBody.get("name");
         String psw = requestBody.get("psw");
-        String email = requestBody.get("email");
-        return service.register(name,psw,email);
+        return service.register(name,psw);
     }
 
-    @GetMapping
-    @Operation(
-            summary = "Displaying a list of buyers",
-            description = "Display a list of all registered customers. Available only for administrator."
-    )
-    public List<CommonUser> getAll() {
-        return service.getAll();
-    }
+//    @GetMapping
+//    @Operation(
+//            summary = "Displaying a list of buyers",
+//            description = "Display a list of all registered customers. Available only for administrator."
+//    )
+//    public List<CommonUser> getAll() {
+//        return service.getAll();
+//    }
 
-    @GetMapping("/email/{email}")
-    @Operation(
-            summary = "Search for a buyer",
-            description = "Search for a buyer by his email address. Available only for administrator."
-    )
-    public List<CommonUser> getUserByEmail(@PathVariable String email) {
-        return service.getUsersByEmail(email);
-    }
+//    @GetMapping("/email/{email}")
+//    @Operation(
+//            summary = "Search for a buyer",
+//            description = "Search for a buyer by his email address. Available only for administrator."
+//    )
+//    public List<CommonUser> getUserByEmail(@PathVariable String email) {
+//        return service.getUsersByEmail(email);
+//    }
 
 
-    @PostMapping("/update/{id}/name/{name}/email/{email}")
-    @Operation(
-            summary = "Updating buyer details",
-            description = "Updating buyer details: login and email. Available only for administrator."
-    )
-
-    public void updateForUser(@PathVariable Integer id, @PathVariable String name, @PathVariable String email) {
-        service.updateOfUser(id,name,email);
-    }
-
-    @DeleteMapping("/delete/{id}")
-    @Operation(
-            summary = "Delete buyer",
-            description = "Removing a customer from the database. Available only for administrator."
-    )
-    public void delUser(@PathVariable Integer id) {
-        service.deleteUserAndRelatedEntities(id);
-    }
+//    @PostMapping("/update/{id}/name/{name}/email/{email}")
+//    @Operation(
+//            summary = "Updating buyer details",
+//            description = "Updating buyer details: login and email. Available only for administrator."
+//    )
+//    public void updateForUser(@PathVariable Integer id, @PathVariable String name, @PathVariable String email) {
+//        service.updateOfUser(id,name,email);
+//    }
+//
+//    @DeleteMapping("/delete/{id}")
+//    @Operation(
+//            summary = "Delete buyer",
+//            description = "Removing a customer from the database. Available only for administrator."
+//    )
+//    public void delUser(@PathVariable Integer id) {
+//        service.deleteUserAndRelatedEntities(id);
+//    }
 
 }

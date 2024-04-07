@@ -47,14 +47,14 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public CommonUser register(String name, String psw, String email) {
+    public CommonUser register(String name, String psw) {
         CommonUser user = userRepository.findByname(name);
         if (user != null) {
             throw new UserAlreadyExistsException("A user with the same name already exists!");
         }
         CommonUser testUser = new CommonUser();
         testUser.setName(name);
-        testUser.setEmail(email);
+       // testUser.setEmail(email);
 
         testUser.setId(0);
         testUser.clearRoles();
@@ -73,20 +73,20 @@ public class UserService implements UserDetailsService {
         return newUser;
     }
 
-    public List<CommonUser> getAll() {
-        return userRepository.findAll();
-    }
+//    public List<CommonUser> getAll() {
+//        return userRepository.findAll();
+//    }
 
-    public List<CommonUser> getUsersByEmail(String email) {
-        return userRepository.findAll()
-                .stream()
-                .filter(x -> x.getEmail().equals(email))
-                .toList();
-    }
+//    public List<CommonUser> getUsersByEmail(String email) {
+//        return userRepository.findAll()
+//                .stream()
+//                .filter(x -> x.getEmail().equals(email))
+//                .toList();
+//    }
 
-public void updateOfUser(Integer id, String name, String email) {
-    userRepository.updateUser(id, name, email);
-}
+//public void updateOfUser(Integer id, String name, String email) {
+//    userRepository.updateUser(id, name, email);
+//}
 
     @Transactional
     public void addBookToCart(Integer userId, Integer bookId) {
@@ -129,27 +129,27 @@ public void updateOfUser(Integer id, String name, String email) {
 
     }
 
-    @Transactional
-    public void deleteUserAndRelatedEntities(Integer userId) {
-        // Получение пользователя по идентификатору
-        CommonUser user = userRepository.findById(userId).orElse(null);
-
-        if (user != null) {
-            // Удаление связанных ролей
-            userRepository.deleteByUserId(userId);
-            // Удаление корзины пользователя
-            CommonCart cart = user.getCart();
-            if (cart != null) {
-                // Удаление книг из корзины
-                cart.getBooks().clear();
-                cartRepository.save(cart);
-
-                // Удаление самой корзины
-                cartRepository.delete(cart);
-            }
-
-            // Удаление пользователя
-            userRepository.delete(user);
-        }
-    }
+//    @Transactional
+//    public void deleteUserAndRelatedEntities(Integer userId) {
+//        // Получение пользователя по идентификатору
+//        CommonUser user = userRepository.findById(userId).orElse(null);
+//
+//        if (user != null) {
+//            // Удаление связанных ролей
+//            userRepository.deleteByUserId(userId);
+//            // Удаление корзины пользователя
+//            CommonCart cart = user.getCart();
+//            if (cart != null) {
+//                // Удаление книг из корзины
+//                cart.getBooks().clear();
+//                cartRepository.save(cart);
+//
+//                // Удаление самой корзины
+//                cartRepository.delete(cart);
+//            }
+//
+//            // Удаление пользователя
+//            userRepository.delete(user);
+//        }
+//    }
 }

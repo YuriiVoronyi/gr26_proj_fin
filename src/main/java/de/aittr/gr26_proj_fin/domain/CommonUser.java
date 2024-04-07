@@ -1,6 +1,7 @@
 package de.aittr.gr26_proj_fin.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import de.aittr.gr26_proj_fin.domain.interfaces.Order;
 import de.aittr.gr26_proj_fin.domain.interfaces.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -32,9 +33,9 @@ public class CommonUser implements User, UserDetails {
     @Column(name = "password")
     private String password;
 
-    @Schema(description = "User's email", example = "bob@x.com")
-    @Column(name = "email")
-    private String email;
+//    @Schema(description = "User's email", example = "bob@x.com")
+//    @Column(name = "email")
+//    private String email;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
@@ -50,15 +51,17 @@ public class CommonUser implements User, UserDetails {
     @OneToOne(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private CommonCart cart;
 
+    // Определение связи один ко многим с заказами
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<CommonOrder> orders = new HashSet<>();
 
     public CommonUser() {
     }
 
-    public CommonUser(int id, String name, String password, String email) {
+    public CommonUser(int id, String name, String password) {
         this.id = id;
         this.name = name;
         this.password = password;
-        this.email = email;
     }
 
     public void addToCart(CommonBook book) {
@@ -93,6 +96,13 @@ public class CommonUser implements User, UserDetails {
                 break;
             }
         }
+    }
+    public void addOrder(CommonOrder order) {
+        orders.add(order);
+    }
+
+    public Set<CommonOrder> getOrders() {
+        return orders;
     }
 
     public void addRole(Role role) {
@@ -163,11 +173,6 @@ public class CommonUser implements User, UserDetails {
         this.name = name;
     }
 
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return roles;
-//    }
-
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
         return roles.stream()
@@ -185,28 +190,29 @@ public class CommonUser implements User, UserDetails {
         this.password = password;
     }
 
-    @Override
-    public String getEmail() {
-        return email;
-    }
-
-    @Override
-    public void setEmail(String email) {
-        this.email = email;
-    }
+//    @Override
+//    public String getEmail() {
+//        return email;
+//    }
+//
+//    @Override
+//    public void setEmail(String email) {
+//        this.email = email;
+//    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CommonUser that = (CommonUser) o;
-        return id == that.id && Objects.equals(name, that.name) && Objects.equals(password, that.password) && Objects.equals(email, that.email) && Objects.equals(roles, that.roles);
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(password, that.password) && Objects.equals(roles, that.roles) && Objects.equals(cart, that.cart) && Objects.equals(orders, that.orders);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, password, email, roles);
+        return Objects.hash(id, name, password, roles, cart, orders);
     }
+
 
 //    @Override
 //    public String toString() {
@@ -225,8 +231,8 @@ public class CommonUser implements User, UserDetails {
         return "CommonUser{" +
                 "id=" + id +
                 ", name=" + name +
-                ", email=" + email +
                 ", roles=" + roles +
+                ", orders=" + orders +
                 '}';
     }
 }

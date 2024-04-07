@@ -5,11 +5,11 @@ public interface Book {
     String getName();
     void setName(String name);
     double getPrice();
-    String getYear();
+    //String getYear();
     String getPathimg();
     String getAuthor();
-    String getIsbn();
-    String getGenre();
+    //String getIsbn();
+    //String getGenre();
     boolean isIs_active();
     void setIs_active(boolean active);
     void setId(int id);
