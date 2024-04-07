@@ -1,7 +1,6 @@
 package de.aittr.gr26_proj_fin.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import de.aittr.gr26_proj_fin.domain.interfaces.Order;
 import de.aittr.gr26_proj_fin.domain.interfaces.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -33,10 +32,6 @@ public class CommonUser implements User, UserDetails {
     @Column(name = "password")
     private String password;
 
-//    @Schema(description = "User's email", example = "bob@x.com")
-//    @Column(name = "email")
-//    private String email;
-
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -45,7 +40,6 @@ public class CommonUser implements User, UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
-    //private Set<Role> roles;
 
     @JsonIgnore
     @OneToOne(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -117,10 +111,6 @@ public class CommonUser implements User, UserDetails {
         this.roles = roles;
     }
 
-    //public Set<Role> getRoles() {
-    //    return roles;
-    //}
-
     public CommonCart getCart() {
         return cart;
     }
@@ -190,16 +180,6 @@ public class CommonUser implements User, UserDetails {
         this.password = password;
     }
 
-//    @Override
-//    public String getEmail() {
-//        return email;
-//    }
-//
-//    @Override
-//    public void setEmail(String email) {
-//        this.email = email;
-//    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -212,19 +192,6 @@ public class CommonUser implements User, UserDetails {
     public int hashCode() {
         return Objects.hash(id, name, password, roles, cart, orders);
     }
-
-
-//    @Override
-//    public String toString() {
-//        final StringBuilder sb = new StringBuilder("CommonUser{");
-//        sb.append("id=").append(id);
-//        sb.append(", name='").append(name).append('\'');
-//        sb.append(", password='").append(password).append('\'');
-//        sb.append(", email='").append(email).append('\'');
-//        sb.append(", roles=").append(roles);
-//        sb.append('}');
-//        return sb.toString();
-//    }
 
     @Override
     public String toString() {

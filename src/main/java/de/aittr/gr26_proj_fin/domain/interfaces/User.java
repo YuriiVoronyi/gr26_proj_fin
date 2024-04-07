@@ -1,7 +1,5 @@
 package de.aittr.gr26_proj_fin.domain.interfaces;
 
-import de.aittr.gr26_proj_fin.domain.CommonCart;
-
 public interface User {
 
     int getId();
@@ -12,8 +10,5 @@ public interface User {
 
     String getPassword();
     void setPassword(String password);
-
-//    String getEmail();
-//    void setEmail(String email);
 
 }

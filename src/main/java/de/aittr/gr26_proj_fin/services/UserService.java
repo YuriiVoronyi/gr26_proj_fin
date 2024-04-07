@@ -73,21 +73,6 @@ public class UserService implements UserDetailsService {
         return newUser;
     }
 
-//    public List<CommonUser> getAll() {
-//        return userRepository.findAll();
-//    }
-
-//    public List<CommonUser> getUsersByEmail(String email) {
-//        return userRepository.findAll()
-//                .stream()
-//                .filter(x -> x.getEmail().equals(email))
-//                .toList();
-//    }
-
-//public void updateOfUser(Integer id, String name, String email) {
-//    userRepository.updateUser(id, name, email);
-//}
-
     @Transactional
     public void addBookToCart(Integer userId, Integer bookId) {
         //Получаем юзера из базы данных
@@ -128,28 +113,4 @@ public class UserService implements UserDetailsService {
         return user.getCart().getBooks();
 
     }
-
-//    @Transactional
-//    public void deleteUserAndRelatedEntities(Integer userId) {
-//        // Получение пользователя по идентификатору
-//        CommonUser user = userRepository.findById(userId).orElse(null);
-//
-//        if (user != null) {
-//            // Удаление связанных ролей
-//            userRepository.deleteByUserId(userId);
-//            // Удаление корзины пользователя
-//            CommonCart cart = user.getCart();
-//            if (cart != null) {
-//                // Удаление книг из корзины
-//                cart.getBooks().clear();
-//                cartRepository.save(cart);
-//
-//                // Удаление самой корзины
-//                cartRepository.delete(cart);
-//            }
-//
-//            // Удаление пользователя
-//            userRepository.delete(user);
-//        }
-//    }
 }

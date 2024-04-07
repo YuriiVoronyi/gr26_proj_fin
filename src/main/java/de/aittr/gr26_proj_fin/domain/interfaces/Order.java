@@ -12,12 +12,7 @@ public interface Order {
     boolean isIs_active();
     void setIs_active(boolean active);
 
-    List<CommonBook> getBooks();          //Возвращает список книг
-    void addBook(CommonBook book);       //Добавляем книгу в корзину
-    double getTotalPrice();         //Возвращаем полную стоимость книг
-
-//    void setCustomer(CommonUser customer);
-//    List<CommonBook> getBooks();          //Возвращает список книг
-//    void addBook(CommonBook book);       //Добавляем книгу в корзину
-//    double getTotalPrice();         //Возвращаем полную стоимость книг
+    List<CommonBook> getBooks();
+    void addBook(CommonBook book);
+    double getTotalPrice();
 }

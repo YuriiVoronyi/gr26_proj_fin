@@ -29,17 +29,6 @@ public class CommonCart implements Cart {
     )
     private List<CommonBook> books = new ArrayList<>();
     //========================================================================
-//    private int quantity;
-//
-//    public int getQuantity() {
-//        return quantity;
-//    }
-//
-//    public void setQuantity(int quantity) {
-//        this.quantity = quantity;
-//    }
-    //========================================================================
-
 
     @Override
     public boolean equals(Object o) {
@@ -73,7 +62,6 @@ public class CommonCart implements Cart {
     public void setId(int id) {
         this.id = id;
     }
-
 
     @Override
     public void setCustomer(CommonUser customer) {

@@ -22,20 +22,11 @@ public class CommonBook implements Book {
     @Column(name = "price")
     private double price;
 
-//    @Column(name = "year")
-//    private String year;
-
     @Column(name = "pathimg")
     private String pathimg;
 
     @Column(name = "author")
     private String author;
-
-//    @Column(name = "isbn")
-//    private String isbn;
-//
-//    @Column(name = "genre")
-//    private String genre;
 
     @Column(name = "is_active")
     private boolean is_active;
@@ -68,12 +59,6 @@ public class CommonBook implements Book {
         this.is_active = isActive;
     }
 
-//    public CommonBook(String name, String author, String genre) {
-//        this.name = name;
-//        this.author = author;
-//        this.genre = genre;
-//    }
-
     public CommonBook(String name) {
         this.name = name;
     }
@@ -98,11 +83,6 @@ public class CommonBook implements Book {
         return price;
     }
 
-//    @Override
-//    public String getYear() {
-//        return year;
-//    }
-
     @Override
     public String getPathimg() {
         return pathimg;
@@ -112,16 +92,6 @@ public class CommonBook implements Book {
     public String getAuthor() {
         return author;
     }
-
-//    @Override
-//    public String getIsbn() {
-//        return isbn;
-//    }
-//
-//    @Override
-//    public String getGenre() {
-//        return genre;
-//    }
 
     @Override
     public boolean isIs_active() {

@@ -38,7 +38,6 @@ public class CartController {
 
     }
 
-
     @GetMapping("/books/{userId}")
     @Operation(
             summary = "Displaying a list of books",

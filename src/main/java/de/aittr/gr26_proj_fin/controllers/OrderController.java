@@ -1,9 +1,7 @@
 package de.aittr.gr26_proj_fin.controllers;
 
-import de.aittr.gr26_proj_fin.domain.CommonBook;
 import de.aittr.gr26_proj_fin.domain.CommonOrder;
 import de.aittr.gr26_proj_fin.services.OrderService;
-import de.aittr.gr26_proj_fin.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
 
