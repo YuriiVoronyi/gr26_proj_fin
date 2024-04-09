@@ -1,5 +1,6 @@
 package de.aittr.gr26_proj_fin.controllers;
 
+import de.aittr.gr26_proj_fin.domain.CommonBook;
 import de.aittr.gr26_proj_fin.services.ImgService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.core.io.Resource;
@@ -35,4 +36,12 @@ public class ImgController {
         return service.getImage(imageName);
     }
 
+    @PostMapping("/{id}/newpath/{path}")
+    @Operation(
+            summary = "Changing the path",
+            description = "Changing the path to the image. Available for any users."
+    )
+    public CommonBook changingThePathOfTheImage(@PathVariable Integer id, @PathVariable String path) {
+        return service.changingThePath(id,path);
+    }
 }

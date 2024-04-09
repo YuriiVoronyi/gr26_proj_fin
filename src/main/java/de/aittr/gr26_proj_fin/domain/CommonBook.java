@@ -89,6 +89,11 @@ public class CommonBook implements Book {
     }
 
     @Override
+    public void setPathimg(String path) {
+        this.pathimg = path;
+    }
+
+    @Override
     public String getAuthor() {
         return author;
     }

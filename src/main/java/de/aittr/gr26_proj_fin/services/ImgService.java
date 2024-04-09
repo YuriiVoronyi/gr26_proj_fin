@@ -1,5 +1,9 @@
 package de.aittr.gr26_proj_fin.services;
 
+import de.aittr.gr26_proj_fin.domain.CommonBook;
+import de.aittr.gr26_proj_fin.repositories.interfaces.BookRepository;
+import de.aittr.gr26_proj_fin.repositories.interfaces.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,6 +20,9 @@ import java.nio.file.Paths;
 
 @Service
 public class ImgService {
+
+    @Autowired
+    private BookRepository bookRepository;
 
     private String uploadPath = "src/main/resources/img"; // Путь для сохранения загруженных файлов
 
@@ -62,5 +69,16 @@ public class ImgService {
             // В случае ошибки возвращаем ошибку сервера
             return ResponseEntity.status(500).build();
         }
+    }
+
+    public CommonBook changingThePath(Integer id, String path) {
+        CommonBook book = new CommonBook();
+        book = bookRepository.findById(id).orElse(null);
+        if (book != null) {
+            book.setPathimg(path.trim());
+            bookRepository.save(book);
+            return book;
+        }
+        return null;
     }
 }

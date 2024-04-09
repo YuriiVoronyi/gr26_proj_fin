@@ -6,6 +6,7 @@ public interface Book {
     void setName(String name);
     double getPrice();
     String getPathimg();
+    void setPathimg(String path);
     String getAuthor();
     boolean isIs_active();
     void setIs_active(boolean active);
