@@ -1,7 +1,7 @@
 package de.aittr.gr26_proj_fin;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-public class Test {
+public class Encodpsw {
     public static void main(String[] args) {
 
         // Получение зашифрованного пароля

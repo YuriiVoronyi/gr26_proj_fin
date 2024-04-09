@@ -64,6 +64,9 @@ public class SecurityConfig {
 
                                 .requestMatchers(HttpMethod.POST, "/api/user/reg/items").permitAll()//Регистрация юзера
 
+                                .requestMatchers(HttpMethod.POST, "/api/img/load").permitAll()//Загрузка картинки на бэк
+                                .requestMatchers(HttpMethod.GET, "/api/img/get/{imageName}").permitAll()//Выгрузка картинки с бэка
+
                                 .requestMatchers(HttpMethod.POST, "/api/order/add/{userId}").hasRole("USER")//Добавление заказа юзером
                                 .requestMatchers(HttpMethod.GET, "/api/order/getall").hasRole("ADMIN")//Вызов всех заказов из базы
                                 .requestMatchers(HttpMethod.GET, "/api/order/getbynum/{number}").hasRole("ADMIN")//Вызов заказа по номеру

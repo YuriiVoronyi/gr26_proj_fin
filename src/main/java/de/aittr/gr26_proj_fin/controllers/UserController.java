@@ -26,7 +26,7 @@ public class UserController {
     public UserController(UserService service) {
         this.service = service;
     }
-
+    @Schema(description = "User's raw password for logging in", example = "111")
     @PostMapping("/reg/items")
     @Operation(
             summary = "Buyer registration",
