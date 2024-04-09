@@ -27,7 +27,6 @@ public class UserController {
         this.service = service;
     }
 
-    @Schema(description = "Two fields required: name, psw")
     @PostMapping("/reg/items")
     @Operation(
             summary = "Buyer registration",
