@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.UUID;
 
 @Service
 public class ImgService {
@@ -33,7 +34,7 @@ public class ImgService {
 
         try {
             // Генерируем уникальное имя для файла
-            String fileName = file.getOriginalFilename();
+            String fileName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
             // Создаем путь для сохранения файла
             Path path = Paths.get(uploadPath + File.separator + fileName);
             // Сохраняем файл

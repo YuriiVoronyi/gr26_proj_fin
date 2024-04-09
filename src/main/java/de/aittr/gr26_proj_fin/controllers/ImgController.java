@@ -21,7 +21,7 @@ public class ImgController {
     @PostMapping("/load")
     @Operation(
             summary = "Uppload image file",
-            description = "Uppload image file. Available for any users."
+            description = "Uppload image file. Available only for administrator."
     )
     public ResponseEntity<String> handleFileUpload(@RequestParam("image")MultipartFile file) {
         return service.uploadImage(file);
@@ -30,7 +30,7 @@ public class ImgController {
     @GetMapping("/get/{imageName}")
     @Operation(
             summary = "Getting an image",
-            description = "Getting an image from the database. Available for any users."
+            description = "Getting an image from the database. Available only for administrator."
     )
     public ResponseEntity<Resource> gettingImageFromDB(@PathVariable String imageName) {
         return service.getImage(imageName);
@@ -39,7 +39,7 @@ public class ImgController {
     @PostMapping("/{id}/newpath/{path}")
     @Operation(
             summary = "Changing the path",
-            description = "Changing the path to the image. Available for any users."
+            description = "Changing the path to the image. Available only for administrator."
     )
     public CommonBook changingThePathOfTheImage(@PathVariable Integer id, @PathVariable String path) {
         return service.changingThePath(id,path);
