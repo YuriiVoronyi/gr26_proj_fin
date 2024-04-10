@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/book")
+@RequestMapping("/api/books")
 @Tag(
         name = "Book controller",
         description = "Controller for performing various operations on book objects"
@@ -33,7 +33,7 @@ public class BookController {
         return ResponseEntity.ok().body(service.getAll());
     }
 
-    @GetMapping("/forusername/active")
+    @GetMapping("/active")
     @Operation(
             summary = "Getting all active books",
             description = "Getting all books available for sale. Available for any user."
@@ -69,7 +69,7 @@ public class BookController {
         service.deleteByName(name);
     }
 
-    @GetMapping("/forusername/{name}")
+    @GetMapping("/{name}")
     @Operation(
             summary = "Search for active books by title",
             description = "Search for books available for sale by title. Available for any user."

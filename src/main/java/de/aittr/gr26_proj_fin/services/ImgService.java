@@ -2,7 +2,6 @@ package de.aittr.gr26_proj_fin.services;
 
 import de.aittr.gr26_proj_fin.domain.CommonBook;
 import de.aittr.gr26_proj_fin.repositories.interfaces.BookRepository;
-import de.aittr.gr26_proj_fin.repositories.interfaces.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -27,7 +26,7 @@ public class ImgService {
 
     private String uploadPath = "src/main/resources/img"; // Путь для сохранения загруженных файлов
 
-    public ResponseEntity<String> uploadImage(MultipartFile file) {
+    public ResponseEntity<String> uploadImage(MultipartFile file, Integer id) {
         if (file.isEmpty()) {
             return new ResponseEntity<>("Failed to upload empty file", HttpStatus.BAD_REQUEST);
         }
@@ -39,6 +38,12 @@ public class ImgService {
             Path path = Paths.get(uploadPath + File.separator + fileName);
             // Сохраняем файл
             Files.write(path, file.getBytes());
+            CommonBook book = new CommonBook();
+            book = bookRepository.findById(id).orElse(null);
+            if (book != null) {
+                book.setPathimg(fileName);
+                bookRepository.save(book);
+            }
             // Возвращаем URL загруженного файла
             return ResponseEntity.ok(uploadPath + "/" + fileName);
         } catch (IOException e) {
@@ -49,12 +54,9 @@ public class ImgService {
 
     public ResponseEntity<Resource> getImage(String imageName) {
         Path imagePath = Paths.get(uploadPath).resolve(imageName); // Формирование пути к изображению
-        System.out.println("imagePath = " + imagePath);
         Resource imageResource;
         try {
             imageResource = new org.springframework.core.io.UrlResource(imagePath.toUri()); // Создание ресурса для изображения
-            System.out.println(imageResource.exists());
-            System.out.println(imageResource.isReadable());
             if (imageResource.exists() && imageResource.isReadable()) {
                 // Если изображение существует и доступно для чтения, возвращаем его клиенту
                 return ResponseEntity.ok()

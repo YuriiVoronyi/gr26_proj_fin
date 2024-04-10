@@ -3,7 +3,6 @@ package de.aittr.gr26_proj_fin.controllers;
 import de.aittr.gr26_proj_fin.domain.CommonUser;
 import de.aittr.gr26_proj_fin.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 @Tag(
         name = "Buyer Controller",
         description = "Controller for performing various operations on customer objects"

@@ -51,7 +51,7 @@ public class BookService {
     }
 
         public void updateOfBook(CommonBook book) {
-        logger.info(String.format("Active book requested by ISBN code"));
+        logger.info(String.format("Changing book properties"));
         repository.updateBook(book.getId(),
                 book.getName(),
                 book.getPrice(),
