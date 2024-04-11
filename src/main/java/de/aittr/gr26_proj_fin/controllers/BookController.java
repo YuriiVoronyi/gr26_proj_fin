@@ -71,8 +71,8 @@ public class BookController {
 
     @GetMapping("/{name}")
     @Operation(
-            summary = "Search for active books by title",
-            description = "Search for books available for sale by title. Available for any user."
+            summary = "Search for active books by title or author",
+            description = "Search for books available for sale by title or author. Available for any user."
     )
     public List<CommonBook> getBkByTitleForUser(@PathVariable String name) {
         return service.getBookByNameForUser(name);
