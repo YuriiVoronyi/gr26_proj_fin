@@ -46,7 +46,7 @@ public class BookService {
         logger.info(String.format("Requested active book by title"));
         return repository.findAll()
                 .stream()
-                .filter(x -> (x.getAuthor().equals(name) || x.getName().equals(name)) && x.isIs_active() == true)
+                .filter(x -> (x.getAuthor().toLowerCase().equals(name.toLowerCase()) || x.getName().toLowerCase().equals(name.toLowerCase())) && x.isIs_active() == true)
                 .toList();
     }
 
