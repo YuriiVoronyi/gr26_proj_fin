@@ -17,12 +17,22 @@ public class TokenResponseDto {
         this.message = message;
     }
 
+    public TokenResponseDto(String accessToken, String refreshToken, String message) {
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
+        this.message = message;
+    }
+
     public String getAccessToken() {
         return accessToken;
     }
 
     public String getRefreshToken() {
         return refreshToken;
+    }
+
+    public String getMessage() {
+        return message;
     }
 
     @Override

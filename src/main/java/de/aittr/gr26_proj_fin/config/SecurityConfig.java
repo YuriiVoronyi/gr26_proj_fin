@@ -48,10 +48,10 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/access").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/auth/logout").permitAll()
 
-                                .requestMatchers(HttpMethod.POST, "/api/cart/users/{userId}/cart/items").hasRole("USER")//Добавление книги в корзину
-                                .requestMatchers(HttpMethod.DELETE, "/api/cart/del/users/{userId}/cart/items").hasRole("USER")//Удаление книги из корзины
-                                .requestMatchers(HttpMethod.DELETE, "/api/cart/clear/users/{userId}").hasRole("USER")//Очистка корзины
-                                .requestMatchers(HttpMethod.GET, "/api/cart/books/{userId}").hasRole("USER")//Вызов списка книг из корзины
+                                .requestMatchers(HttpMethod.POST, "/api/carts/{userId}").hasRole("USER")//Добавление книги в корзину
+                                .requestMatchers(HttpMethod.DELETE, "/api/carts/del/users/{userId}/cart/items").hasRole("USER")//Удаление книги из корзины
+                                .requestMatchers(HttpMethod.DELETE, "/api/carts/clear/users/{userId}").hasRole("USER")//Очистка корзины
+                                .requestMatchers(HttpMethod.GET, "/api/carts/books/{userId}").hasRole("USER")//Вызов списка книг из корзины
 
                                 .requestMatchers(HttpMethod.GET, "/api/books").hasRole("ADMIN")//Вывод всех книг
                                 .requestMatchers(HttpMethod.POST, "/api/books/save").hasRole("ADMIN")//Сохранение книги

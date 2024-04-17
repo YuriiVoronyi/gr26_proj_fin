@@ -36,8 +36,9 @@ public class AuthService {
         if (encoder.matches(inboundUser.getPassword(), foundUser.getPassword())) {//сопоставляем пароли того, что ввел юзер и из БД
             String accessToken = tokenService.generateAccessToken(foundUser);//генерируем accessToken
             String refreshToken = tokenService.generateRefreshToken(foundUser);//генерируем refreshToken
+            String message = foundUser.getUsername();
             refreshStorage.put(username, refreshToken);
-            return new TokenResponseDto(accessToken, refreshToken);
+            return new TokenResponseDto(accessToken, refreshToken, message);
         } else {
             throw new AuthException("Password is incorrect");
         }

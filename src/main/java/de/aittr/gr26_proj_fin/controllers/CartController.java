@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/cart")
+@RequestMapping("/api/carts")
 public class CartController {
 
     private UserService userService;
@@ -22,7 +22,7 @@ public class CartController {
         this.cartService = cartService;
     }
 
-    @PostMapping("/users/{userId}/cart/items")
+    @PostMapping("/{userId}")
     @Operation(
             summary = "Adding a book to cart",
             description = "Adding a book to cart. Available for authorized users. The body needs one field: bookId"
