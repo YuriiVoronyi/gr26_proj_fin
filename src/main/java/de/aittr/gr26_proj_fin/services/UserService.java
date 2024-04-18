@@ -74,17 +74,17 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void addBookToCart(Integer userId, Integer bookId) {
+    public void addBookToCart(String userName, Integer bookId) {
         //Получаем юзера из базы данных
-        CommonUser user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User with id " + userId + " not found"));
-
-        CommonBook bookToAdd = bookRepository.findById(bookId)
-                .orElseThrow(() -> new EntityNotFoundException("Book with id " + bookId + " not found"));
-        // Добавляем книгу в корзину пользователя
-        user.addToCart(bookToAdd);
-        userRepository.save(user);
-
+        CommonUser user = userRepository.findByname(userName);
+                //.orElseThrow(() -> new EntityNotFoundException("User with login " + userName + " not found"));
+        if (user != null) {
+            CommonBook bookToAdd = bookRepository.findById(bookId)
+                    .orElseThrow(() -> new EntityNotFoundException("Book with id " + bookId + " not found"));
+            // Добавляем книгу в корзину пользователя
+            user.addToCart(bookToAdd);
+            userRepository.save(user);
+        }
     }
 
     @Transactional

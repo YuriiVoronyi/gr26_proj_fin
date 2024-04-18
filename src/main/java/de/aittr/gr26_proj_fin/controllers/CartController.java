@@ -1,6 +1,7 @@
 package de.aittr.gr26_proj_fin.controllers;
 
 import de.aittr.gr26_proj_fin.domain.CommonBook;
+import de.aittr.gr26_proj_fin.domain.CommonCart;
 import de.aittr.gr26_proj_fin.services.CartService;
 import de.aittr.gr26_proj_fin.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,29 +23,38 @@ public class CartController {
         this.cartService = cartService;
     }
 
-    @PostMapping("/{userId}")
+    @PostMapping("/{userName}")
     @Operation(
             summary = "Adding a book to cart",
             description = "Adding a book to cart. Available for authorized users. The body needs one field: bookId"
     )
-    public ResponseEntity<?> addBookToCart(@PathVariable Integer userId, @RequestBody Map<String, String> requestBody) {
+    public ResponseEntity<?> addBookToCart(@PathVariable String userName, @RequestBody Map<String, String> requestBody) {
         String bookId = requestBody.get("bookId");
         if (bookId == null) {
             return ResponseEntity.badRequest().body("Book ID not specified");
         }
 
-        userService.addBookToCart(userId, Integer.valueOf(bookId));
+        userService.addBookToCart(userName, Integer.valueOf(bookId));
         return ResponseEntity.ok().build();
 
     }
 
-    @GetMapping("/books/{userId}")
+    @GetMapping("/{userName}")
+    @Operation(
+            summary = "Displaying the total number and cost of books of cart",
+            description = "Displaying the total number and cost of books from the shopping cart. Available for authorized users."
+    )
+    public CommonCart getCart(@PathVariable String userName) {
+        return cartService.getCartOfUser(userName);
+    }
+
+    @GetMapping("/books/{userName}")
     @Operation(
             summary = "Displaying a list of books",
             description = "Displaying a list of books from the cart. Available for authorized users."
     )
-    public List<CommonBook> getBooksOfCart(@PathVariable Integer userId) {
-        return cartService.getBooksFromCart(userId);
+    public List<CommonBook> getBooksOfCart(@PathVariable String userName) {
+        return cartService.getBooksFromCart(userName);
     }
 
     @DeleteMapping("/del/users/{userId}/cart/items")

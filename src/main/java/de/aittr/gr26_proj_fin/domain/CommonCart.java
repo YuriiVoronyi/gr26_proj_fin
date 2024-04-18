@@ -99,4 +99,12 @@ public class CommonCart implements Cart {
                 .mapToDouble(b -> b.getPrice())
                 .sum();
     }
+
+    @Override
+    public int getTotalCount() {
+        long count = books.stream()
+                .filter(b -> b.isIs_active())
+                .count();
+        return Math.toIntExact(count);
+    }
 }

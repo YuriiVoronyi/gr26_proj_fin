@@ -14,4 +14,5 @@ public interface Cart {
     void deleteBookById(int bookId);    //Удаляем книгу по ее id из корзины
     void clear();                      //Очищаем корзину
     double getTotalPrice();         //Возвращаем полную стоимость книг
+    int getTotalCount();         //Возвращаем общее количество книг
 }

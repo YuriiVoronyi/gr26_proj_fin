@@ -1,6 +1,7 @@
 package de.aittr.gr26_proj_fin.services;
 
 import de.aittr.gr26_proj_fin.domain.CommonBook;
+import de.aittr.gr26_proj_fin.domain.CommonCart;
 import de.aittr.gr26_proj_fin.domain.CommonUser;
 import de.aittr.gr26_proj_fin.repositories.interfaces.CartRepository;
 import de.aittr.gr26_proj_fin.repositories.interfaces.UserRepository;
@@ -22,12 +23,19 @@ public class CartService {
         this.cartRepository = cartRepository;
     }
 
-    public List<CommonBook> getBooksFromCart(Integer id) {
-        CommonUser user = userRepository.findById(id).orElse(null);
+    public CommonCart getCartOfUser(String userName) {
+        CommonUser user = userRepository.findByname(userName);
+        if (user != null) {
+            return user.getCart();
+        }
+        return null;
+    }
+
+    public List<CommonBook> getBooksFromCart(String userName) {
+        CommonUser user = userRepository.findByname(userName);
         if (user != null) {
             return user.getCart().getBooks();
         }
         return null;
     }
-
 }
