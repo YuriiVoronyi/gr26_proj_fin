@@ -88,18 +88,19 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public List<CommonBook> deleteBookFromCart(Integer userId, Integer bookId) {
+    public List<CommonBook> deleteBookFromCart(String userName, Integer bookId) {
         //Получаем юзера из базы данных
-        CommonUser user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User with id " + userId + " not found"));
-
-        CommonBook bookForDel = bookRepository.findById(bookId)
-                .orElseThrow(() -> new EntityNotFoundException("Book with id " + bookId + " not found"));
-        // Удаляем книгу из корзины пользователя
-        user.delFromCart(bookForDel);
-        userRepository.save(user);
-        return user.getCart().getBooks();
-
+        CommonUser user = userRepository.findByname(userName);
+                //.orElseThrow(() -> new EntityNotFoundException("User with id " + userId + " not found"));
+        if (user != null) {
+            CommonBook bookForDel = bookRepository.findById(bookId)
+                    .orElseThrow(() -> new EntityNotFoundException("Book with id " + bookId + " not found"));
+            // Удаляем книгу из корзины пользователя
+            user.delFromCart(bookForDel);
+            userRepository.save(user);
+            return user.getCart().getBooks();
+        }
+        return null;
     }
 
     @Transactional

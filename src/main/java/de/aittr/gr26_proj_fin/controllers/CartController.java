@@ -57,14 +57,14 @@ public class CartController {
         return cartService.getBooksFromCart(userName);
     }
 
-    @DeleteMapping("/del/users/{userId}/cart/items")
+    @DeleteMapping("{userName}")
     @Operation(
             summary = "Removing a book from the cart",
             description = "Removing a book from the cart. Available for authorized users. The body needs one field: bookId"
     )
-    public List<CommonBook> delBookFromCart(@PathVariable Integer userId, @RequestBody Map<String, String> requestBody) {
+    public List<CommonBook> delBookFromCart(@PathVariable String userName, @RequestBody Map<String, String> requestBody) {
         String bookId = requestBody.get("bookId");
-        return  userService.deleteBookFromCart(userId, Integer.valueOf(bookId));
+        return  userService.deleteBookFromCart(userName, Integer.valueOf(bookId));
     }
 
     @DeleteMapping("/clear/users/{userId}")

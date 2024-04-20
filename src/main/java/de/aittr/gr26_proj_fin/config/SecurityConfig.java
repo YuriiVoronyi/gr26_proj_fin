@@ -49,7 +49,8 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/api/auth/logout").permitAll()
 
                                 .requestMatchers(HttpMethod.POST, "/api/carts/{userName}").hasRole("USER")//Добавление книги в корзину
-                                .requestMatchers(HttpMethod.DELETE, "/api/carts/del/users/{userId}/cart/items").hasRole("USER")//Удаление книги из корзины
+                                //.requestMatchers(HttpMethod.DELETE, "/api/carts/del/users/{userId}/cart/items").hasRole("USER")//Удаление книги из корзины
+                                .requestMatchers(HttpMethod.DELETE, "/api/carts/{userName}").hasRole("USER")//Удаление книги из корзины
                                 .requestMatchers(HttpMethod.DELETE, "/api/carts/clear/users/{userId}").hasRole("USER")//Очистка корзины
                                 .requestMatchers(HttpMethod.GET, "/api/carts/books/{userName}").hasRole("USER")//Вызов списка книг из корзины
                                 .requestMatchers(HttpMethod.GET, "/api/carts/{userName}").hasRole("USER")//Вызов количества и общей стоимости книг корзины

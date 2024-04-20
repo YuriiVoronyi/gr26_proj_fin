@@ -84,7 +84,13 @@ public class CommonCart implements Cart {
 
     @Override
     public void deleteBookById(int bookId) {
-        books.removeIf(b -> b.getId() == bookId);
+        //books.removeIf(b -> b.getId() == bookId);
+        for (CommonBook book : books) {
+            if (book.getId() == bookId) {
+                books.remove(book);
+                break; // Выход из цикла после удаления первого вхождения
+            }
+        }
     }
 
     @Override
