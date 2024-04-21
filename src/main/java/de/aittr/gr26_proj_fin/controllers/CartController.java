@@ -67,12 +67,12 @@ public class CartController {
         return  userService.deleteBookFromCart(userName, Integer.valueOf(bookId));
     }
 
-    @DeleteMapping("/clear/users/{userId}")
+    @DeleteMapping("/clear/{userName}")
     @Operation(
             summary = "Emptying the cart",
             description = "Completly emptying of the book basket. Available for authorized users."
     )
-    public List<CommonBook> clrCart(@PathVariable Integer userId) {
-        return userService.clearCart(userId);
+    public List<CommonBook> clrCart(@PathVariable String userName) {
+        return userService.clearCart(userName);
     }
 }

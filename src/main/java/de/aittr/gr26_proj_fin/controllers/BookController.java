@@ -51,7 +51,7 @@ public class BookController {
         return service.save(book);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     @Operation(
             summary = "Book update",
             description = "Updating book information. Available only for administrator."
@@ -74,7 +74,7 @@ public class BookController {
             summary = "Search for active books by title or author",
             description = "Search for books available for sale by title or author. Available for any user."
     )
-    public List<CommonBook> getBkByTitleForUser(@PathVariable String name) {
-        return service.getBookByNameForUser(name);
+    public List<CommonBook> getBkByTitleOrAuthorForUser(@PathVariable String name) {
+        return service.getBookByNameOrAuthorForUser(name);
     }
 }

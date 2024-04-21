@@ -38,7 +38,7 @@ public class ImgController {
         return service.getImage(imageName);
     }
 
-    @PostMapping("/{id}/items")
+    @PostMapping("/{id}")
     @Operation(
             summary = "Changing the path",
             description = "Changing the path to the image. Available only for administrator."

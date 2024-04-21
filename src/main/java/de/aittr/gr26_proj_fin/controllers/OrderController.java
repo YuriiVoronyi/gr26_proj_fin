@@ -17,16 +17,16 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @PostMapping("/add/{userId}")
+    @PostMapping("/{userName}")
     @Operation(
             summary = "Adding an order to customer",
             description = "Adding an order to customer. Available for authorized users."
     )
-    public String addOrder(@PathVariable Integer userId) {
-        return orderService.addNewOrder(userId);
+    public String addOrder(@PathVariable String userName) {
+        return orderService.addNewOrder(userName);
     }
 
-    @GetMapping("/getall")
+    @GetMapping()
     @Operation(
             summary = "Displaying all orders",
             description = "Displaying all orders from the database. Available only for administrator."
@@ -35,16 +35,16 @@ public class OrderController {
         return orderService.getAllOrders();
     }
 
-    @GetMapping("/getbynum/{number}")
+    @GetMapping("/{number}")
     @Operation(
-            summary = "Displaying all orders",
-            description = "Displaying all orders from the database. Available only for administrator."
+            summary = "Search for an order by number",
+            description = "Search for an order by number. Available only for administrator."
     )
     public CommonOrder getOrderByNumber(@PathVariable Integer number) {
         return orderService.getOrderByNumber(number);
     }
 
-    @PostMapping("/payorder/{number}")
+    @PostMapping("/{number}")
     @Operation(
             summary = "The order has been paid",
             description = "Order payment mark. Available only for administrator."
@@ -53,7 +53,7 @@ public class OrderController {
         return orderService.setMarkOfPaymentOfOrder(number);
     }
 
-    @DeleteMapping("/delorder/{number}")
+    @DeleteMapping("/{number}")
     @Operation(
             summary = "Deleting an order",
             description = "Removing an order from the database. Available only for administrator."

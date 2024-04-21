@@ -51,30 +51,41 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST, "/api/carts/{userName}").hasRole("USER")//Добавление книги в корзину
                                 //.requestMatchers(HttpMethod.DELETE, "/api/carts/del/users/{userId}/cart/items").hasRole("USER")//Удаление книги из корзины
                                 .requestMatchers(HttpMethod.DELETE, "/api/carts/{userName}").hasRole("USER")//Удаление книги из корзины
-                                .requestMatchers(HttpMethod.DELETE, "/api/carts/clear/users/{userId}").hasRole("USER")//Очистка корзины
+                                .requestMatchers(HttpMethod.DELETE, "/api/carts/clear/{userName}").hasRole("USER")//Очистка корзины
                                 .requestMatchers(HttpMethod.GET, "/api/carts/books/{userName}").hasRole("USER")//Вызов списка книг из корзины
                                 .requestMatchers(HttpMethod.GET, "/api/carts/{userName}").hasRole("USER")//Вызов количества и общей стоимости книг корзины
 
                                 .requestMatchers(HttpMethod.GET, "/api/books").hasRole("ADMIN")//Вывод всех книг
                                 .requestMatchers(HttpMethod.POST, "/api/books/save").hasRole("ADMIN")//Сохранение книги
-                                .requestMatchers(HttpMethod.POST, "/api/books/update").hasRole("ADMIN")//Обновление данных книги
+                                .requestMatchers(HttpMethod.PUT, "/api/books/update").hasRole("ADMIN")//Обновление данных книги
 
                                 .requestMatchers(HttpMethod.DELETE, "/api/books/{name}").hasRole("ADMIN")//Удаление книги по названию
 
                                 .requestMatchers(HttpMethod.GET, "/api/books/active").permitAll()//Вывод всех активных книг
-                                .requestMatchers(HttpMethod.GET, "/api/books/{name}").permitAll()//Вывод активной книги по названию
+                                .requestMatchers(HttpMethod.GET, "/api/books/{name}").permitAll()//Вывод активной книги по названию или автору
 
-                                .requestMatchers(HttpMethod.POST, "/api/users/reg/items").permitAll()//Регистрация юзера
+                                //.requestMatchers(HttpMethod.POST, "/api/users/reg/items").permitAll()//Регистрация юзера
+                                .requestMatchers(HttpMethod.POST, "/api/users/reg").permitAll()//Регистрация юзера
 
                                 .requestMatchers(HttpMethod.POST, "/api/img/load/{id}").permitAll()//Загрузка картинки на бэк и в таблицу
                                 .requestMatchers(HttpMethod.GET, "/api/img/{imageName}").permitAll()//Выгрузка картинки с бэка
-                                .requestMatchers(HttpMethod.POST, "/api/img/{id}/items").hasRole("ADMIN")//Замена пути у картинки
+                                //.requestMatchers(HttpMethod.POST, "/api/img/{id}/items").hasRole("ADMIN")//Замена пути у картинки
+                                .requestMatchers(HttpMethod.POST, "/api/img/{id}").hasRole("ADMIN")//Замена пути у картинки
 
-                                .requestMatchers(HttpMethod.POST, "/api/orders/add/{userId}").hasRole("USER")//Добавление заказа юзером
-                                .requestMatchers(HttpMethod.GET, "/api/orders/getall").hasRole("ADMIN")//Вызов всех заказов из базы
-                                .requestMatchers(HttpMethod.GET, "/api/orders/getbynum/{number}").hasRole("ADMIN")//Вызов заказа по номеру
-                                .requestMatchers(HttpMethod.POST, "/api/orders/payorder/{number}").hasRole("ADMIN")//Оплата заказа
-                                .requestMatchers(HttpMethod.DELETE, "/api/orders/delorder/{number}").hasRole("ADMIN")//Удаление заказа
+                                //.requestMatchers(HttpMethod.POST, "/api/orders/add/{userId}").hasRole("USER")//Добавление заказа юзером
+                                .requestMatchers(HttpMethod.POST, "/api/orders/{userName}").hasRole("USER")//Добавление заказа юзером
+
+                                //.requestMatchers(HttpMethod.GET, "/api/orders/getall").hasRole("ADMIN")//Вызов всех заказов из базы
+                                .requestMatchers(HttpMethod.GET, "/api/orders").hasRole("ADMIN")//Вызов всех заказов из базы
+
+                                //.requestMatchers(HttpMethod.GET, "/api/orders/getbynum/{number}").hasRole("ADMIN")//Вызов заказа по номеру
+                                .requestMatchers(HttpMethod.GET, "/api/orders/{number}").hasRole("ADMIN")//Вызов заказа по номеру
+
+                                //.requestMatchers(HttpMethod.POST, "/api/orders/payorder/{number}").hasRole("ADMIN")//Оплата заказа
+                                .requestMatchers(HttpMethod.POST, "/api/orders/{number}").hasRole("ADMIN")//Оплата заказа по его номеру
+
+                                //.requestMatchers(HttpMethod.DELETE, "/api/orders/delorder/{number}").hasRole("ADMIN")//Удаление заказа
+                                .requestMatchers(HttpMethod.DELETE, "/api/orders/{number}").hasRole("ADMIN")//Удаление заказа
 
                                 .anyRequest().authenticated())
                                 .addFilterAfter(filter, UsernamePasswordAuthenticationFilter.class)

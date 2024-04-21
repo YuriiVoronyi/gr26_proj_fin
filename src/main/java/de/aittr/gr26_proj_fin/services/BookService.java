@@ -42,7 +42,7 @@ public class BookService {
                 .toList();
     }
 
-    public List<CommonBook> getBookByNameForUser(String name) {
+    public List<CommonBook> getBookByNameOrAuthorForUser(String name) {
         logger.info(String.format("Requested active book by title"));
         return repository.findAll()
                 .stream()

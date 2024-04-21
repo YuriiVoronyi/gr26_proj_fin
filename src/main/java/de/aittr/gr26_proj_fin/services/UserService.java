@@ -54,7 +54,7 @@ public class UserService implements UserDetailsService {
         }
         CommonUser testUser = new CommonUser();
         testUser.setName(name);
-       // testUser.setEmail(email);
+        // testUser.setEmail(email);
 
         testUser.setId(0);
         testUser.clearRoles();
@@ -77,7 +77,7 @@ public class UserService implements UserDetailsService {
     public void addBookToCart(String userName, Integer bookId) {
         //Получаем юзера из базы данных
         CommonUser user = userRepository.findByname(userName);
-                //.orElseThrow(() -> new EntityNotFoundException("User with login " + userName + " not found"));
+        //.orElseThrow(() -> new EntityNotFoundException("User with login " + userName + " not found"));
         if (user != null) {
             CommonBook bookToAdd = bookRepository.findById(bookId)
                     .orElseThrow(() -> new EntityNotFoundException("Book with id " + bookId + " not found"));
@@ -91,7 +91,7 @@ public class UserService implements UserDetailsService {
     public List<CommonBook> deleteBookFromCart(String userName, Integer bookId) {
         //Получаем юзера из базы данных
         CommonUser user = userRepository.findByname(userName);
-                //.orElseThrow(() -> new EntityNotFoundException("User with id " + userId + " not found"));
+        //.orElseThrow(() -> new EntityNotFoundException("User with id " + userId + " not found"));
         if (user != null) {
             CommonBook bookForDel = bookRepository.findById(bookId)
                     .orElseThrow(() -> new EntityNotFoundException("Book with id " + bookId + " not found"));
@@ -104,14 +104,16 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public List<CommonBook> clearCart(Integer userId) {
+    public List<CommonBook> clearCart(String userName) {
         //Получаем юзера из базы данных
-        CommonUser user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User with id " + userId + " not found"));
+        CommonUser user = userRepository.findByname(userName);
+        //.orElseThrow(() -> new EntityNotFoundException("User with id " + userId + " not found"));
         // Чистим корзину пользователя
-        user.getCart().clear();
-        userRepository.save(user);
-        return user.getCart().getBooks();
-
+        if (user != null) {
+            user.getCart().clear();
+            userRepository.save(user);
+            return user.getCart().getBooks();
+        }
+        return null;
     }
 }
