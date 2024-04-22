@@ -27,7 +27,7 @@ public class UserController {
         this.service = service;
     }
 
-    @PostMapping("/reg/items")
+    @PostMapping("/reg")
     @Operation(
             summary = "Buyer registration",
             description = "New buyer registration. Available for any user. The body needs two fields: name, psw"
